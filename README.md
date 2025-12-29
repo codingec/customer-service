@@ -38,3 +38,4 @@ password: postgres
 [Import postman collection](config/postman/Customer Service API.postman_collection.json)
 1. Consume service to generate token
 2. Now you can consume client endpoints to get data
+![alt text](./config/images/postman.png)
