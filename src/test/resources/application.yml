@@ -1,0 +1,83 @@
+# Test Application Configuration
+quarkus:
+  application:
+    name: customer-service-test
+
+  # HTTP Configuration
+  http:
+    port: 8081
+    test-port: 0
+
+  # Datasource Configuration - H2 In-Memory Database
+  datasource:
+    db-kind: h2
+    username: sa
+    password:
+    jdbc:
+      url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      max-size: 8
+
+  # Hibernate Configuration
+  hibernate-orm:
+    database:
+      generation: drop-and-create
+    log:
+      sql: false
+      format-sql: true
+    dialect: org.hibernate.dialect.H2Dialect
+
+  # OIDC Configuration - Test mode (using @TestSecurity)
+  oidc:
+    enabled: true
+    auth-server-url: http://localhost:8080/realms/customer-service
+    client-id: customer-service-cli
+    credentials:
+      secret: none
+    tls:
+      verification: none
+    token:
+      issuer: http://localhost:8080/realms/customer-service
+    application-type: service
+
+  # Disable Dev Services
+  devservices:
+    enabled: false
+
+  keycloak:
+    devservices:
+      enabled: false
+
+  # REST Client Configuration for Keycloak
+  rest-client:
+    "com.banking.customer.service.keycloak.KeycloakClient":
+      url: http://localhost:8080
+
+# Logging Configuration - Simplified for tests
+quarkus.log:
+  level: INFO
+  console:
+    enable: true
+    format: "%d{HH:mm:ss} %-5p [%c{2.}] %s%e%n"
+    json: false
+  category:
+    "io.quarkus": WARN
+    "com.banking": INFO
+    "org.hibernate.SQL": WARN
+
+# Health Check Configuration
+quarkus.health:
+  extensions:
+    enabled: true
+
+# Metrics Configuration
+quarkus.micrometer:
+  enabled: true
+  export:
+    prometheus:
+      enabled: true
+
+# Application-specific properties
+app:
+  name: Customer Service Test
+  version: 1.0.0
+  description: Test environment for customer service

@@ -1,0 +1,84 @@
+# Application Configuration
+quarkus:
+  application:
+    name: customer-service
+
+  # HTTP Configuration
+  http:
+    port: 8081
+    cors:
+      ~: true
+      origins: "*"
+      methods: "GET,POST,PUT,DELETE,OPTIONS"
+      headers: "accept,authorization,content-type,x-requested-with"
+      exposed-headers: "authorization"
+      access-control-max-age: 86400
+
+  # Datasource Configuration
+  datasource:
+    db-kind: postgresql
+    username: postgres
+    password: postgres
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/customer_db
+      max-size: 16
+
+  # Hibernate Configuration
+  hibernate-orm:
+    database:
+      generation: update
+    log:
+      sql: true
+      format-sql: true
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # OIDC Configuration (for protected endpoints only)
+  oidc:
+    auth-server-url: http://localhost:8080/realms/customer-service
+    client-id: customer-service-cli
+    credentials:
+      secret: none
+    tls:
+      verification: none
+    token:
+      issuer: http://localhost:8080/realms/customer-service
+      principal-claim: preferred_username
+    roles:
+      source: accesstoken
+      role-claim-path: realm_access/roles
+    application-type: service
+
+# Logging Configuration
+quarkus.log:
+  level: DEBUG
+  console:
+    enable: true
+    format: "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{3.}] (%t) %s%e%n"
+    json: true
+  category:
+    "io.quarkus": INFO
+    "org.jboss.resteasy.reactive": DEBUG
+    "com.banking": DEBUG
+    "org.hibernate.SQL": DEBUG
+    "org.hibernate.type.descriptor.sql.BasicBinder": TRACE
+    "io.quarkus.oidc": DEBUG
+    "io.quarkus.security": DEBUG
+
+# Health Check Configuration
+quarkus.health:
+  extensions:
+    enabled: true
+
+# Metrics Configuration
+quarkus.micrometer:
+  enabled: true
+  export:
+    prometheus:
+      enabled: true
+      path: /q/metrics
+
+# Application-specific properties
+app:
+  name: Customer Service
+  version: 1.0.0
+  description: Microservicio de gestion de clientes bancarios
