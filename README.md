@@ -28,11 +28,13 @@ user: postgres
 password: postgres
 ``` 
 ### Create database structure
-[Create database](config/database/create_database.sql)
-### Create table structure
-[Create table](config/database/create_table.sql)
+[Create database](config/database/00-create_database.sql)
+### Create table structure and insert
+[Create table](config/database/10-customer-db.sql)
+[Create table](config/database/20-account-db.sql)
+[Create table](config/database/30-transaction-db.sql)
 ###### Insert data to table
-[Insert data to table client](config/database/import_table.sql)
+[Insert data to table client](config/database/customer/import_table.sql)
 
 ### Import Postman collection
 [Import postman collection](config/postman/Customer Service API.postman_collection.json)
